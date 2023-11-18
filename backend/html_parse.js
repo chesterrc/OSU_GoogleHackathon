@@ -26,7 +26,14 @@ function parseCSVWordBank(pathToCSV) {
 async function getProfanityBank(pathToCSV) {
     try {
         const profanityBank = await parseCSVWordBank(pathToCSV);
-        return profanityBank;
+
+        let uniqueChars = [];
+        profanityBank.forEach((word) => {
+            if (!uniqueChars.includes(word)) {
+                uniqueChars.push(word);
+            }
+        });
+        return uniqueChars;
     } catch (error) {
         console.error(error);
         return [];
@@ -40,4 +47,9 @@ async function main() {
     const body = document.querySelector("article");
 }
 
-main();
+// main();
+
+module.exports = {
+    parseCSVWordBank,
+    getProfanityBank
+}
