@@ -104,7 +104,7 @@ async function isProfanity(wordBank, word, start, end) {
 }
 
 
-function wordGenerator(string) {
+function wordGenerator(string, wordBank) {
     /**
      * Processes a given string, censoring words identified as profane.
      * Function splits the input string into words, checks each word for profanity,
@@ -117,7 +117,7 @@ function wordGenerator(string) {
     const words = string.split(' ').filter(w => w !== '');
 
     for (let i=0; i < words.length; i++) {
-        if (isProfanity(data, words[i], 0, data.length-1) === true) {
+        if (isProfanity(wordBank, words[i], 0, wordBank.length-1) === true) {
             words[i] = '*'.repeat(words[i].length) // censor word
         }
     }
@@ -132,10 +132,13 @@ async function useWordBank() {
     // for (const char of all[200].textContent) {
     //     console.log(char)
     // }
-    for (let i=0, max=all.length; i < max; i++) {
-        // all[i].textContent = wordGenerator
-        console.log(all[i].textContent)
-    }
+
+    console.log(all[0].textContent)
+
+    // for (let i=0, max=all.length; i < max; i++) {
+    //     all[i].textContent = wordGenerator(all[i].textContent, wordBank)
+    //     console.log(all[i].textContent)
+    // }
 }
   
 useWordBank();
