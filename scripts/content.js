@@ -68,6 +68,7 @@
 console.log("Content script loaded");
 
 async function fetchWordBank() {
+    
     try {
         const response = await fetch(chrome.runtime.getURL('data/wordBank.json'));
         const wordBankArray = await response.json();
@@ -88,6 +89,7 @@ function isProfanity(wordBank, word, start, end) {
      * @param  {Number} end         The end of the subarray to check.
      * @return {Boolean}            If the word is a profanity
     */
+
     if (start > end) {
         return false; // Base case: word not found
     }
@@ -114,6 +116,7 @@ function wordGenerator(string, wordBank) {
      * @returns {string[]}      An array of words from the original string with profane words censored.
      *                          Each censored word is replaced with asterisks (*) of the same length as the word.
      */
+
     const words = string.split(' ').filter(w => w !== '');
 
     for (let i=0; i < words.length; i++) {
@@ -131,6 +134,7 @@ async function main() {
      *       Currently, the last for loop in this function breaks the webpage but that is
      *       because it edits the head of a dom tree. We need to edit only the body
      */
+
     const wordBank = await fetchWordBank();
     // console.log(wordBank[wordBank.length-1])
     const all = document.getElementsByTagName("*");
