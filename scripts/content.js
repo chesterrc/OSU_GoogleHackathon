@@ -124,7 +124,13 @@ function wordGenerator(string, wordBank) {
     return words.join(' ')
 }
 
-async function useWordBank() {
+async function main() {
+    /**
+     * Main function where we run everything.....
+     * @todo Figure out how to traverse all the nodes in the body.
+     *       Currently, the last for loop in this function breaks the webpage but that is
+     *       because it edits the head of a dom tree. We need to edit only the body
+     */
     const wordBank = await fetchWordBank();
     // console.log(wordBank[wordBank.length-1])
     const all = document.getElementsByTagName("*");
@@ -134,13 +140,13 @@ async function useWordBank() {
     // }
 
     console.log(all[0].textContent)
-
+    // @TODO
     // for (let i=0, max=all.length; i < max; i++) {
     //     all[i].textContent = wordGenerator(all[i].textContent, wordBank)
     //     console.log(all[i].textContent)
     // }
 }
   
-useWordBank();
+main();
 
 
