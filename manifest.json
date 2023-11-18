@@ -9,7 +9,7 @@
     },
     "content_scripts": [
         {
-            "power": ["scripts/popup.js"],
+            "background": ["scripts/background.jg"],
             "content": ["scripts/content.js"],
             "matches": ["<all_urls>"],
             "css":["good-word.css"]
@@ -20,5 +20,8 @@
         "resources": ["data/wordBank.json"],
         "matches": ["<all_urls>"]
     }
+    ],
+    "permissions":[
+        "management"
     ]
 }

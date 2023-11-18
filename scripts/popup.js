@@ -1,15 +1,15 @@
 //power on or off the event
 function enable(event) {
-    crhome.storage.sync.get('state', function(data){
-        if (data.sate === 'on'){
-            chrome.storage.sync.set({state:'off'});
-            //add in different images
+    var id = chrome.runtime.id;
+    chrome.management.get(id, function(ex)
+    {
+        if(ex.enabled){
+            chrome.management.setEnabled(id, false);
         } else{
-            chrome.storage.sync.set({state:'on'});
-            chrome.tabs.executeScript(null, {file: '../backend/html_parse.js'})
+            chrome.management.setEnabled(id, true);
         }
-    })
-};
+    });
+}
 
 const btn = document.getElementById('press-button');
 btn.addEventListener('click', enable);
