@@ -121,21 +121,21 @@ function wordGenerator(string) {
             words[i] = '*'.repeat(words[i].length) // censor word
         }
     }
-    return words
+    return words.join(' ')
 }
 
 async function useWordBank() {
     const wordBank = await fetchWordBank();
     // console.log(wordBank[wordBank.length-1])
     const all = document.getElementsByTagName("*");
-    console.log(all[200].textContent);
-    for (const char of all[200].textContent) {
-        console.log(char)
-    }
-    // for (let i=0, max=all.length; i < max; i++) {
-
-    //     console.log(all[i].innerHTML)
+    // console.log(all[200].textContent);
+    // for (const char of all[200].textContent) {
+    //     console.log(char)
     // }
+    for (let i=0, max=all.length; i < max; i++) {
+        // all[i].textContent = wordGenerator
+        console.log(all[i].textContent)
+    }
 }
   
 useWordBank();
