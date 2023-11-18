@@ -6,5 +6,20 @@
     "action": {
         "default_popup": "nlp.html",
         "default_icon": "hi.png"
-    }
+    },
+    "content_scripts": [
+        {
+          "js": ["scripts/content.js"],
+          "matches": [
+            "https://developer.chrome.com/docs/extensions/*",
+            "https://developer.chrome.com/docs/webstore/*"
+          ]
+        }
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": ["data/wordBank.json"],
+        "matches": ["<all_urls>"]
+      }
+    ]
 }
