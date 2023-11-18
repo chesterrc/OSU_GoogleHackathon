@@ -78,7 +78,7 @@ async function fetchWordBank() {
     }
 }
 
-async function isProfanity(wordBank, word, start, end) {
+function isProfanity(wordBank, word, start, end) {
     /**
      * Uses divide and conquer technique to check a word against
      * a word bank
@@ -91,7 +91,7 @@ async function isProfanity(wordBank, word, start, end) {
     if (start > end) {
         return false; // Base case: word not found
     }
-    
+
     const midNumber = Math.floor((start + end) / 2);
     const midWord = wordBank[midNumber];
     if (word.toLowerCase() === midWord.toLowerCase()) {
@@ -139,7 +139,10 @@ async function main() {
     //     console.log(char)
     // }
 
-    console.log(all[0].textContent)
+    // console.log(all[0].textContent)
+    console.log(all[612].textContent)
+    all[612].textContent = wordGenerator(all[612].textContent, wordBank)
+    // console.log(all[612].textContent)
     // @TODO
     // for (let i=0, max=all.length; i < max; i++) {
     //     all[i].textContent = wordGenerator(all[i].textContent, wordBank)
