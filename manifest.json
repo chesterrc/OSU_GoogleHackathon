@@ -9,16 +9,21 @@
     },
     "content_scripts": [
         {
-            "power": ["scripts/popup.js"],
-            "content": ["scripts/content.js"],
+            "js": [
+                "scripts/content.js",
+                "scripts/popup.js"
+            ],
             "matches": ["<all_urls>"],
             "css":["good-word.css"]
         }
     ],
     "web_accessible_resources": [
-    {
-        "resources": ["data/wordBank.json"],
-        "matches": ["<all_urls>"]
-    }
+        {
+            "resources": ["data/wordBank.json"],
+            "matches": ["<all_urls>"]
+        }
+    ],
+    "permissions": [
+        "storage"
     ]
 }
