@@ -23,7 +23,20 @@ function parseCSVWordBank(pathToCSV) {
     });
 }
 
+async function getProfanityBank(pathToCSV) {
+    try {
+        const profanityBank = await parseCSVWordBank(pathToCSV);
+        return profanityBank;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
 
-parseCSVWordBank("./profanity_en.csv")
-    .then(profanityBank => console.log(profanityBank))
-    .catch(error => console.error(error));
+async function main() {
+    const wordBank = await getProfanityBank('./profanity_en.csv');
+    // Use wordBank here, it's the array you wanted
+    console.log(wordBank);
+}
+
+main();
