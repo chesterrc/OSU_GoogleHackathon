@@ -1,17 +1,14 @@
 //power on or off the event
 function enable(event) {
-    console.log('clicked', event)
-    tog = tog ? false : true;
-    if(tog){
-     //turn on...
-        chrome.browserAction.setIcon({ path: 'start-button.png' });
-        chrome.browserAction.setBadgeText({ text: 'ON' });
-        chrome.tabs.executeScript(null, { file: 'content.js' }); 
-    }else{
-     //turn off...
-        chrome.browserAction.setIcon({ path: 'disable.png'});
-        chrome.browserAction.setBadgeText({ text: '' });
-    }
+    crhome.storage.sync.get('state', function(data){
+        if (data.sate === 'on'){
+            chrome.storage.sync.set({state:'off'});
+            //add in different images
+        } else{
+            chrome.storage.sync.set({state:'on'});
+            chrome.tabs.executeScript(null, {file: '../backend/html_parse.js'})
+        }
+    })
 };
 
 const btn = document.getElementById('press-button');
