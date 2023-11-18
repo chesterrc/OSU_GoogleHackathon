@@ -80,14 +80,14 @@ async function fetchWordBank() {
 
 async function isProfanity(wordBank, word, start, end) {
     /**
-    * Uses divide and conquer technique to check a word against
-    * a word bank
-    * @param  {Array} wordBank     An array of profanity.
-    * @param  {String} word        The word to check.
-    * @param  {Number} start       The start of the subarray to check.
-    * @param  {Number} end         The end of the subarray to check.
-    * @return {Boolean}             If the word is a profanity
-     */
+     * Uses divide and conquer technique to check a word against
+     * a word bank
+     * @param  {Array} wordBank     An array of profanity.
+     * @param  {String} word        The word to check.
+     * @param  {Number} start       The start of the subarray to check.
+     * @param  {Number} end         The end of the subarray to check.
+     * @return {Boolean}            If the word is a profanity
+    */
     if (start > end) {
         return false; // Base case: word not found
     }
@@ -105,6 +105,15 @@ async function isProfanity(wordBank, word, start, end) {
 
 
 function wordGenerator(string) {
+    /**
+     * Processes a given string, censoring words identified as profane.
+     * Function splits the input string into words, checks each word for profanity,
+     * and replaces profane words with asterisks.
+     *
+     * @param {string} string   The string to be processed.
+     * @returns {string[]}      An array of words from the original string with profane words censored.
+     *                          Each censored word is replaced with asterisks (*) of the same length as the word.
+     */
     const words = string.split(' ').filter(w => w !== '');
 
     for (let i=0; i < words.length; i++) {
