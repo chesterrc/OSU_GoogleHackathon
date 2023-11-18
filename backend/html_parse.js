@@ -33,10 +33,11 @@ async function getProfanityBank(pathToCSV) {
     }
 }
 
+
+
 async function main() {
     const wordBank = await getProfanityBank('./profanity_en.csv');
-    // Use wordBank here, it's the array you wanted
-    console.log(wordBank);
+    const body = document.querySelector("article");
 }
 
 main();
