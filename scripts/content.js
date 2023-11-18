@@ -78,10 +78,55 @@ async function fetchWordBank() {
     }
 }
 
+async function isProfanity(wordBank, word, start, end) {
+    /**
+    * Uses divide and conquer technique to check a word against
+    * a word bank
+    * @param  {Array} wordBank     An array of profanity.
+    * @param  {String} word        The word to check.
+    * @param  {Number} start       The start of the subarray to check.
+    * @param  {Number} end         The end of the subarray to check.
+    * @return {Boolean}             If the word is a profanity
+     */
+    if (start > end) {
+        return false; // Base case: word not found
+    }
+    
+    const midNumber = Math.floor((start + end) / 2);
+    const midWord = wordBank[midNumber];
+    if (word.toLowerCase() === midWord.toLowerCase()) {
+        return true; // Word found
+    } else if (word.toLowerCase() < midWord) {
+        return isProfanity(wordBank, word, start, midNumber - 1); // Search in the left half
+    } else {
+        return isProfanity(wordBank, word, midNumber + 1, end); // Search in the right half
+    }
+}
+
+
+function wordGenerator(string) {
+    const words = string.split(' ').filter(w => w !== '');
+
+    for (let i=0; i < words.length; i++) {
+        if (isProfanity(data, words[i], 0, data.length-1) === true) {
+            words[i] = '*'.repeat(words[i].length) // censor word
+        }
+    }
+    return words
+}
+
 async function useWordBank() {
     const wordBank = await fetchWordBank();
-    console.log(wordBank)
+    // console.log(wordBank[wordBank.length-1])
+    const all = document.getElementsByTagName("*");
+    console.log(all[200].textContent);
+    for (const char of all[200].textContent) {
+        console.log(char)
+    }
+    // for (let i=0, max=all.length; i < max; i++) {
 
+    //     console.log(all[i].innerHTML)
+    // }
 }
   
 useWordBank();
