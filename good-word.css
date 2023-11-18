@@ -1,14 +1,11 @@
 
-.button {
+.image-button {
     background-color: white;
 }
 
 #title {
     text-align: center;
+    color: bisque;
 
 }
 
-#title :hover {
-
-    color: aliceblue;
-}

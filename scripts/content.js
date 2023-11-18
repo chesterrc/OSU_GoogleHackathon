@@ -1,22 +1,41 @@
-const article = document.querySelector("article");
+function getTextNodes(element) {
 
-// `document.querySelector` may return null if the selector doesn't match anything.
-if (article) {
-  const text = article.textContent;
-  const wordMatchRegExp = /[^\s]+/g; // Regular expression
-  const words = text.matchAll(wordMatchRegExp);
-  // matchAll returns an iterator, convert to array to get word count
-  const wordCount = [...words].length;
-  const readingTime = Math.round(wordCount / 200);
-  const badge = document.createElement("p");
-  // Use the same styling as the publish information in an article's header
-  badge.classList.add("color-secondary-text", "type--caption");
-  badge.textContent = `⏱️ ${readingTime} min read`;
+  let textNodes = [];
 
-  // Support for API reference docs
-  const heading = article.querySelector("h1");
-  // Support for article docs with date
-  const date = article.querySelector("time")?.parentNode;
+  function traverse(element) {
+      if (element.nodeType === 3) {
+          let obtained_val = element.nodeValue.trim();
+          const regex = /[.,'(){}[\]<>?!@#$%^&*;:]/g;
+          let f_obtained = obtained_val.replace(regex, '');
 
-  (date ?? heading).insertAdjacentElement("afterend", badge);
+          if (f_obtained.includes(" ")) {
+              let f_val = f_obtained.split(" ");
+
+              for (var i = 0; i < f_val.length; i++) {
+                  textNodes.push(f_val[i]);
+              }
+          }
+
+          else if (f_obtained != "") {
+              textNodes.push(f_obtained);
+          }
+          
+      } else {
+          for (let i = 0; i < element.childNodes.length; i++) {
+              traverse(element.childNodes[i]);
+          }
+      }
+  }
+
+  traverse(element);
+  return textNodes;
 }
+
+// Get the root element of the DOM (e.g., the body element)
+const rootElement = document.body;
+
+// Get all regular text nodes from the root element
+const textNodesArray = getTextNodes(rootElement);
+
+// Display the array of text nodes
+console.log(textNodesArray);
