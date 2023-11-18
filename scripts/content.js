@@ -3,6 +3,11 @@ const { parse } = require("csv-parse");
 const { getProfanityBank } = require("../backend/html_parse.js");
 const { parseCSVWordBank } = require("../backend/html_parse.js");
 
+// === TODO ===
+// Take array of words to censor and use DOM manipulation to find and censor each word.
+// ============
+
+
 // === FOR OBTAINING TEXT AS ARRAY FROM WEBPAGE (UNCOMMENT FOR TESTING/PROD) ===
 // function getTextNodes(element) {
 
@@ -45,8 +50,10 @@ const { parseCSVWordBank } = require("../backend/html_parse.js");
 // DEPENDENT ON COMMENTED getTextNodes() FUNCTION
 const textNodesArray = getTextNodes(rootElement);
 
+// ================================================
 
-
+// Checks for presence of censored words in Webpage array
+// (NOTE) To be updated depending on final implementation (i.e. store array as JSON vs. function calls)
 function checkArrayPresence(targetArray, indexArray) {
   let censor_words = []
   for (let i = 0; i < indexArray.length; i++) {
@@ -54,10 +61,12 @@ function checkArrayPresence(targetArray, indexArray) {
       censor_words.push(indexArray[i]);
     }
   }
-
   return censor_words;
 }
 
+// ================================================
+
+// MAIN BACKEND LOGIC BELOW
 const pathToCSV = './backend/profanity_en.csv'
 getProfanityBank(pathToCSV).then(res => {
   let words_to_censor = checkArrayPresence(textNodesArray, res);
