@@ -1,8 +1,3 @@
-const fs = require('fs')
-const { parse } = require("csv-parse");
-const { getProfanityBank } = require("../backend/html_parse.js");
-const { parseCSVWordBank } = require("../backend/html_parse.js");
-
 // === FOR OBTAINING TEXT AS ARRAY FROM WEBPAGE (UNCOMMENT FOR TESTING/PROD) ===
 // function getTextNodes(element) {
 
@@ -42,23 +37,53 @@ const { parseCSVWordBank } = require("../backend/html_parse.js");
 
 // ================================================
 
+// Sorry Jeremy, commenting this out for testing ------
+
 // DEPENDENT ON COMMENTED getTextNodes() FUNCTION
-const textNodesArray = getTextNodes(rootElement);
+// const textNodesArray = getTextNodes(rootElement);
 
 
 
-function checkArrayPresence(targetArray, indexArray) {
-  let censor_words = []
-  for (let i = 0; i < indexArray.length; i++) {
-    if (targetArray.isArray(indexArray[i])) {
-      censor_words.push(indexArray[i]);
+// function checkArrayPresence(targetArray, indexArray) {
+//   let censor_words = []
+//   for (let i = 0; i < indexArray.length; i++) {
+//     if (targetArray.isArray(indexArray[i])) {
+//       censor_words.push(indexArray[i]);
+//     }
+//   }
+
+//   return censor_words;
+// }
+
+// const pathToCSV = './backend/profanity_en.csv'
+// getProfanityBank(pathToCSV).then(res => {
+//   console.log(res)
+//   let words_to_censor = checkArrayPresence(textNodesArray, res);
+// });
+
+// ------
+
+
+
+console.log("Content script loaded");
+
+async function fetchWordBank() {
+    try {
+        const response = await fetch(chrome.runtime.getURL('data/wordBank.json'));
+        const wordBankArray = await response.json();
+        return wordBankArray;
+    } catch (error) {
+        console.error('Fetch Error:', error);
+        return [];
     }
-  }
-
-  return censor_words;
 }
 
-const pathToCSV = './backend/profanity_en.csv'
-getProfanityBank(pathToCSV).then(res => {
-  let words_to_censor = checkArrayPresence(textNodesArray, res);
-});
+async function useWordBank() {
+    const wordBank = await fetchWordBank();
+    console.log(wordBank)
+
+}
+  
+useWordBank();
+
+
