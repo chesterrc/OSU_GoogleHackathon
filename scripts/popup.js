@@ -1,18 +1,3 @@
-//get tabid
-function callback(tabs) {
-    var currentTab = tabs[0]; // there will be only one in this array
-    console.log(currentTab);
-    return currentTab.id
-}
-
-async function getCurrentTab() {
-    let queryOptions = { active: true, currentWindow: true };
-    // `tab` will either be a `tabs.Tab` instance or `undefined`.
-    let tab = await chrome.tabs.query(queryOptions, callback);
-    console.log(tab);
-    return tab;
-}
-
 //power on
 function poweron() {
     chrome.storage.sync.get('state', function(data) {
@@ -41,6 +26,13 @@ chrome.storage.local.get(["profanityPageCount"]).then((result) => {
     console.log("Value currently is " + result['profanityPageCount']);
     const word_count = document.getElementById('word_count');
     word_count.innerHTML = result['profanityPageCount'];
+});
+
+//total profanity count
+chrome.storage.local.get(["totalProfanity"]).then((result) => {
+    console.log("Value currently is " + result['totalProfanity']);
+    const word_count = document.getElementById('total_count');
+    word_count.innerHTML = result['totalProfanity'];
 });
 
 
