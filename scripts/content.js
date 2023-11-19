@@ -173,7 +173,15 @@ async function main() {
     const all = document.getElementsByTagName("*");
     let profanityCount = 0;
 
+
+    const body = document.body.getElementsByTagName("p")
+    for (const paragraph of body) {
+        const result = wordGenerator(paragraph.textContent, wordBank)
+        paragraph.textContent = result.censoredText
+        profanityCount += result.profanityCount
+    }
     
+    console.log(profanityCount)
 
     // console.log(all[200].textContent);
     // for (const char of all[200].textContent) {
@@ -181,17 +189,17 @@ async function main() {
     // }
 
 
-    // --- Testing ---
-    // console.log(all[0].textContent)
-    console.log(all[612].textContent)
-    let result = wordGenerator(all[612].textContent, wordBank)
-    all[612].textContent = result.censoredText
-    profanityCount += result.profanityCount
-    console.log(all[612].textContent)
-    console.log(profanityCount)
+    // // --- Testing ---
+    // // console.log(all[0].textContent)
+    // console.log(all[612].textContent)
+    // let result = wordGenerator(all[612].textContent, wordBank)
+    // all[612].textContent = result.censoredText
+    // profanityCount += result.profanityCount
+    // console.log(all[612].textContent)
+    // console.log(profanityCount)
 
-    // Store profanityCount of the page
-    storeProfanityCount(profanityCount)
+    // // Store profanityCount of the page
+    // storeProfanityCount(profanityCount)
 
     // @TODO
     // for (let i=0, max=all.length; i < max; i++) {
