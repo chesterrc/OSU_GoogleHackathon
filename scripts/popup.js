@@ -1,27 +1,16 @@
 //get tabid
-var activeTabId;
-//this does not work
-chrome.tabs.onActivated.addListener(function(activeInfo) {
-    activeTabId = activeInfo.tabId;
-});
+function callback(tabs) {
+    var currentTab = tabs[0]; // there will be only one in this array
+    console.log(currentTab);
+    return currentTab.id
+}
 
-function getActiveTab(callback) {
-    chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-    var tab = tabs[0];
-
-    if (tab) {
-        callback(tab);
-    } else {
-        chrome.tabs.get(activeTabId, function (tab) {
-        if (tab) {
-            callback(tab);
-        } else {
-            console.log('No active tab identified.');
-        }
-    });
-
-    }
-});
+async function getCurrentTab() {
+    let queryOptions = { active: true, currentWindow: true };
+    // `tab` will either be a `tabs.Tab` instance or `undefined`.
+    let tab = await chrome.tabs.query(queryOptions, callback);
+    console.log(tab);
+    return tab;
 }
 
 //power on
@@ -33,10 +22,12 @@ function poweron() {
             document.getElementById('onoff_img').src = '../images/start-button.png'
         } else {
             chrome.storage.sync.set({state: 'on'});
+            //change img src
             document.getElementById('onoff_img').src = '../images/pause.png'
-            var query = { active: true, currentWindow: true };
+            //call function to get tabid
+            //activeTabId = grabTab();
             chrome.scripting.executeScript({
-                target: activeTabId,
+                target: {tabId: getCurrentTab()},
                 files: ['../backend/html_parse.js'],
             })
         }
@@ -44,3 +35,10 @@ function poweron() {
 }
 
 document.getElementById('onoff').addEventListener('click', poweron);
+
+//show swear word count
+var count = chrome.storage.local
+const word_count = document.getElementById('word_count')
+word_count.innerHTML = count;
+
+
