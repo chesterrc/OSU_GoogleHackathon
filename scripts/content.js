@@ -118,7 +118,8 @@ function wordGenerator(string, wordBank) {
      *                          Each censored word is replaced with asterisks (*) of the same length as the word.
      */
 
-    const words = string.split(' ').filter(w => w !== '');
+    const words = string.split(/(\b|\W+)/).filter(w => w !== '');
+    // Change filtering method to account for special characters in passed strings. Can be optimized?
     let profanityCount = 0;
 
     for (let i=0; i < words.length; i++) {
@@ -196,11 +197,16 @@ async function main() {
     }
 
     const lists = document.body.getElementsByTagName("li");
-    lists.forEach(element => {
-        const result = wordGenerator(element.textContent, wordBank);
-        node.textContent = result.censoredText;
-        profanityCount += result.profanityCount;
-    });
+    if (lists.length) {
+        for (const list of lists) {
+            list.childNodes.forEach(item => {
+                const result = wordGenerator(item.textContent, wordBank);
+                item.textContent = result.censoredText;
+                profanityCount += result.profanityCount;
+            })
+        }
+    }
+    
 
     //     const nodes = document.body.getElementsByTagName(arrayOfElements[i])
     //     console.log(nodes);
