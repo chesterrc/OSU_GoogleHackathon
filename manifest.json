@@ -9,11 +9,13 @@
     },
     "content_scripts": [
         {
-            "background": ["scripts/background.jg"],
-            "content": ["scripts/content.js"],
+            "js": [
+                "scripts/background.js", 
+                "scripts/content.js"
+            ],
             "matches": ["<all_urls>"],
             "css":["good-word.css"]
-        }
+        }   
     ],
     "web_accessible_resources": [
     {
@@ -22,6 +24,7 @@
     }
     ],
     "permissions":[
-        "management"
+        "management",
+        "storage"
     ]
 }
