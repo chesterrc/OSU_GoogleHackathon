@@ -190,40 +190,63 @@ async function main() {
         const nodes = document.body.getElementsByTagName(arrayOfElements[i]);
         if (nodes.length){
             for (const node of nodes) {
-                node.childNodes.forEach(item => {
+                if (node.childNodes) {
+                    node.childNodes.forEach(item => {
+                        const result = wordGenerator(item.textContent, wordBank);
+                        node.textContent = result.censoredText;
+                        profanityCount += result.profanityCount;
+                    })
+                } else {
                     const result = wordGenerator(item.textContent, wordBank);
                     node.textContent = result.censoredText;
                     profanityCount += result.profanityCount;
-                })
+            }
             }
         }
     }
 
-    // const arrayOfElementsSpec = ["cite", "li", "i"];
-    // for (let i = 0; i < arrayOfElementsSpec.length; i++) {
-    //     const lists = document.body.getElementsByTagName(arrayOfElementsSpec[i]);
-    //     if (lists.length) {
-    //         for (const list of lists) {
-    //             list.childNodes.forEach(item => {
-    //                 if (item.tagName.toLowerCase() !== "style") {
-    //                     const result = wordGenerator(item.textContent, wordBank);
-    //                     item.textContent = result.censoredText;
-    //                     profanityCount += result.profanityCount;
-    //                 }
-    //             });
+    // const arrayOfSpecElements = ["li", "cite", "i"];
+
+    // for (let i = 0; i < arrayOfSpecElements.length; i++) {
+    //     const nodes = document.body.getElementsByTagName(arrayOfSpecElements[i]);
+        
+    //     if (nodes && nodes.length) {
+    //         for (const node of nodes) {
+    //             if (node.childNodes && node.parentNode) {
+    //                 node.childNodes.forEach(item => {
+    //                     if (item && item.nodeType === 1 && item.tagName) {
+    //                         if (item.tagName.toLowerCase!== "style") {
+    //                             const result = wordGenerator(item.textContent, wordBank);
+    //                             item.textContent = result.censoredText;
+    //                             profanityCount += result.profanityCount;
+    //                         }
+    //                     }
+    //                 });
+    //             }
     //         }
     //     }
     // }
-    
-    chrome.storage.local.set({ key: profanityCount }).then(() => {
-        console.log("Value is set");
-    });
-      
-    chrome.storage.local.get(["key"]).then((result) => {
-    console.log("Value currently is " + result.key);
-    });
 
-    console.timeEnd("Exec Time");
+    try {
+        const arrayOfElementsSpec = ["cite", "li", "i"];
+        for (let i = 0; i < arrayOfElementsSpec.length; i++) {
+            const lists = document.body.getElementsByTagName(arrayOfElementsSpec[i]);
+            if (lists.length) {
+                for (const list of lists) {
+                    list.childNodes.forEach(item => {
+                        if (item.tagName.toLowerCase() !== "style") {
+                            const result = wordGenerator(item.textContent, wordBank);
+                            item.textContent = result.censoredText;
+                            profanityCount += result.profanityCount;
+                        }
+                    });
+                }
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
 
 
     // TODO: Fix CSS changing because of text changes
