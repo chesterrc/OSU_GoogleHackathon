@@ -181,7 +181,7 @@ async function main() {
         profanityCount += result.profanityCount
     }
 
-    const arrayOfElements = ["h1", "h2", "h3", "h4", "h5", "h6", "li"]
+    const arrayOfElements = ["h1", "h2", "h3", "h4", "h5", "h6", "li"] // if a is included, then we break all links
     for (let i=0; i<arrayOfElements.length-1; i++) {
         const nodes = document.body.getElementsByTagName(arrayOfElements[i])
         for (const node of nodes) {
