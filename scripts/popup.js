@@ -37,8 +37,10 @@ function poweron() {
 document.getElementById('onoff').addEventListener('click', poweron);
 
 //show swear word count
-var count = chrome.storage.local
+var swears;
+count = chrome.storage.local.get(["profanityPageCount"]).then((result) => {
+    console.log("Value currently is " + result['profanityPageCount']);
+});
 const word_count = document.getElementById('word_count')
 word_count.innerHTML = count;
-
 

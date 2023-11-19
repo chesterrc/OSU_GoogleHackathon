@@ -143,7 +143,7 @@ function storeProfanityCount(profanityCount) {
 
     chrome.storage.local.set({ profanityPageCount: profanityCount })
     .then(() => {
-        console.log("Set Profanity count for page")
+        console.log(`Set Profanity count for page ${profanityCount}`)
     })
 
     // Add profanityCount to the lifetime profanity count
@@ -174,30 +174,41 @@ async function main() {
     console.time("Exec Time");
 
     const wordBank = await fetchWordBank();
-    let profanityCount = 0;
 
+    chrome.storage.sync.get('state', function(data) {
+        console.log(data.state)
+        if (data.state === 'on') {
+            let profanityCount = 0;
 
-    const paragraphs = document.body.getElementsByTagName("p");
-    for (const paragraph of paragraphs) {
-        const result = wordGenerator(paragraph.textContent, wordBank);
-        paragraph.textContent = result.censoredText;
-        profanityCount += result.profanityCount;
-    }
-
-    const arrayOfElements = ["h1", "h2", "h3", "h4", "h5", "h6", "a"];
-
-    for (let i = 0; i < arrayOfElements.length; i++) {
-        const nodes = document.body.getElementsByTagName(arrayOfElements[i]);
-        if (nodes.length){
-            for (const node of nodes) {
-                node.childNodes.forEach(item => {
-                    const result = wordGenerator(item.textContent, wordBank);
-                    node.textContent = result.censoredText;
-                    profanityCount += result.profanityCount;
-                })
+            const paragraphs = document.body.getElementsByTagName("p");
+            for (const paragraph of paragraphs) {
+                const result = wordGenerator(paragraph.textContent, wordBank);
+                paragraph.textContent = result.censoredText;
+                profanityCount += result.profanityCount;
             }
+        
+            const arrayOfElements = ["h1", "h2", "h3", "h4", "h5", "h6", "a"];
+        
+            for (let i = 0; i < arrayOfElements.length; i++) {
+                const nodes = document.body.getElementsByTagName(arrayOfElements[i]);
+                if (nodes.length){
+                    for (const node of nodes) {
+                        node.childNodes.forEach(item => {
+                            const result = wordGenerator(item.textContent, wordBank);
+                            node.textContent = result.censoredText;
+                            profanityCount += result.profanityCount;
+                        })
+                    }
+                }
+            }
+
+            storeProfanityCount(profanityCount)
+
         }
-    }
+    });
+
+
+
 
     // const arrayOfElementsSpec = ["cite", "li", "i"];
     // for (let i = 0; i < arrayOfElementsSpec.length; i++) {
@@ -215,13 +226,7 @@ async function main() {
     //     }
     // }
     
-    chrome.storage.local.set({ key: profanityCount }).then(() => {
-        console.log("Value is set");
-    });
-      
-    chrome.storage.local.get(["key"]).then((result) => {
-    console.log("Value currently is " + result.key);
-    });
+
 
     console.timeEnd("Exec Time");
 
