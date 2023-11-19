@@ -1,5 +1,5 @@
 var enabled = true;
-//function checks if extension is enabled or disabled
+//background work, try using for on/off or gathering data
 function toggle(info) {
     console.log('background listen passed', info);
     if(!enabled) return {cancel: false};

@@ -4,6 +4,7 @@ function enable(event) {
     chrome.management.get(id, function(ex)
     {
         if(ex.enabled){
+            chrome.
             chrome.management.setEnabled(id, false);
         } else{
             chrome.management.setEnabled(id, true);
