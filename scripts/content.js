@@ -199,6 +199,50 @@ async function main() {
         }
     }
 
+    async function main() {
+        /**
+         * Main function where we run everything.....
+         * @todo Figure out how to traverse all the nodes in the body.
+         *       Currently, the last for loop in this function breaks the webpage but that is
+         *       because it edits the head of a dom tree. We need to edit only the body
+         */
+    
+        console.time("Exec Time");
+    
+        const wordBank = await fetchWordBank();
+    
+        chrome.storage.sync.get('state', function(data) {
+            console.log(data.state)
+            if (data.state === 'on') {
+                let profanityCount = 0;
+    
+                const paragraphs = document.body.getElementsByTagName("p");
+                for (const paragraph of paragraphs) {
+                    const result = wordGenerator(paragraph.textContent, wordBank);
+                    paragraph.textContent = result.censoredText;
+                    profanityCount += result.profanityCount;
+                }
+            
+                const arrayOfElements = ["h1", "h2", "h3", "h4", "h5", "h6", "a"];
+            
+                for (let i = 0; i < arrayOfElements.length; i++) {
+                    const nodes = document.body.getElementsByTagName(arrayOfElements[i]);
+                    if (nodes.length){
+                        for (const node of nodes) {
+                            node.childNodes.forEach(item => {
+                                const result = wordGenerator(item.textContent, wordBank);
+                                node.textContent = result.censoredText;
+                                profanityCount += result.profanityCount;
+                            })
+                        }
+                    }
+                }
+    
+                storeProfanityCount(profanityCount)
+    
+            }
+        });
+
     // const arrayOfElementsSpec = ["cite", "li", "i"];
     // for (let i = 0; i < arrayOfElementsSpec.length; i++) {
     //     const lists = document.body.getElementsByTagName(arrayOfElementsSpec[i]);

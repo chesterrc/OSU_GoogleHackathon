@@ -26,10 +26,10 @@ function poweron() {
             document.getElementById('onoff_img').src = '../images/pause.png'
             //call function to get tabid
             //activeTabId = grabTab();
-            chrome.scripting.executeScript({
-                target: {tabId: getCurrentTab()},
-                files: ['../backend/html_parse.js'],
-            })
+            //chrome.scripting.executeScript({
+            //    target: {tabId: getCurrentTab()},
+            //    files: ['../backend/html_parse.js'],
+            //})
         }
     });
 }
@@ -37,7 +37,10 @@ function poweron() {
 document.getElementById('onoff').addEventListener('click', poweron);
 
 //show swear word count
-var count = chrome.storage.local
+var swears;
+count = chrome.storage.local.get(["profanityPageCount"]).then((result) => {
+    console.log("Value currently is " + result['profanityPageCount']);
+});
 const word_count = document.getElementById('word_count')
 word_count.innerHTML = count;
 
