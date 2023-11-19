@@ -44,4 +44,3 @@ count = chrome.storage.local.get(["profanityPageCount"]).then((result) => {
 const word_count = document.getElementById('word_count')
 word_count.innerHTML = count;
 
-

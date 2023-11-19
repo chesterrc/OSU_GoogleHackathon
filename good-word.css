@@ -8,3 +8,7 @@
     color: royalblue;
 
 }
+
+#onoff_img {
+    pointer-events: none;
+}
