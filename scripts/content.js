@@ -171,8 +171,9 @@ async function main() {
      *       because it edits the head of a dom tree. We need to edit only the body
      */
 
+    console.time("Exec Time");
+
     const wordBank = await fetchWordBank();
-    const all = document.getElementsByTagName("*");
     let profanityCount = 0;
 
 
@@ -189,9 +190,11 @@ async function main() {
         const nodes = document.body.getElementsByTagName(arrayOfElements[i]);
         if (nodes.length){
             for (const node of nodes) {
-                const result = wordGenerator(node.textContent, wordBank);
-                node.textContent = result.censoredText;
-                profanityCount += result.profanityCount;
+                node.childNodes.forEach(item => {
+                    const result = wordGenerator(item.textContent, wordBank);
+                    node.textContent = result.censoredText;
+                    profanityCount += result.profanityCount;
+                })
             }
         }
     }
@@ -207,6 +210,11 @@ async function main() {
         }
     }
     
+
+    console.timeEnd("Exec Time");
+
+
+    // TODO: Fix CSS changing because of text changes
 
     //     const nodes = document.body.getElementsByTagName(arrayOfElements[i])
     //     console.log(nodes);
