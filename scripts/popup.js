@@ -6,7 +6,7 @@ function poweron() {
     chrome.storage.sync.get('state', function(data) {
         if (data.state === 'on') {
             chrome.storage.sync.set({state: 'off'});
-            img.src = '../images/start-button.png'
+            img.src = '../images/play-button.png'
         } else {
             chrome.storage.sync.set({state: 'on'});
             img.src = '../images/pause.png'
@@ -19,7 +19,7 @@ imgContainer = document.getElementById('onoff');
 img = document.createElement('img');
 
 chrome.storage.sync.get('state', function(data) {
-    img.src = data.state === 'on' ? '../images/pause.png' : '../images/start-button.png'
+    img.src = data.state === 'on' ? '../images/pause.png' : '../images/play-button.png'
 });
 img.id = 'onoff_img';
 imgContainer.appendChild(img);
