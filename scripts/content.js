@@ -171,8 +171,9 @@ async function main() {
      *       because it edits the head of a dom tree. We need to edit only the body
      */
 
+    console.time("Exec Time");
+
     const wordBank = await fetchWordBank();
-    const all = document.getElementsByTagName("*");
     let profanityCount = 0;
 
 
@@ -189,24 +190,38 @@ async function main() {
         const nodes = document.body.getElementsByTagName(arrayOfElements[i]);
         if (nodes.length){
             for (const node of nodes) {
-                const result = wordGenerator(node.textContent, wordBank);
-                node.textContent = result.censoredText;
-                profanityCount += result.profanityCount;
+                node.childNodes.forEach(item => {
+                    const result = wordGenerator(item.textContent, wordBank);
+                    node.textContent = result.censoredText;
+                    profanityCount += result.profanityCount;
+                })
             }
         }
     }
 
-    const lists = document.body.getElementsByTagName("li");
-    if (lists.length) {
-        for (const list of lists) {
-            list.childNodes.forEach(item => {
-                const result = wordGenerator(item.textContent, wordBank);
-                item.textContent = result.censoredText;
-                profanityCount += result.profanityCount;
-            })
+    const arrayOfElementsSpec = ["cite", "li", "i"];
+    for (let i = 0; i < arrayOfElementsSpec.length; i++) {
+        const lists = document.body.getElementsByTagName(arrayOfElementsSpec[i]);
+        if (lists.length) {
+            for (const list of lists) {
+                list.childNodes.forEach(item => {
+                    if (item != undefined) {
+                        if (item.tagName.toLowerCase != "style") {
+                            const result = wordGenerator(item.textContent, wordBank);
+                            item.textContent = result.censoredText;
+                            profanityCount += result.profanityCount;
+                        }
+                    }
+                });
+            }
         }
     }
     
+
+    console.timeEnd("Exec Time");
+
+
+    // TODO: Fix CSS changing because of text changes
 
     //     const nodes = document.body.getElementsByTagName(arrayOfElements[i])
     //     console.log(nodes);
