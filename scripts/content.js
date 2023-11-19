@@ -199,24 +199,29 @@ async function main() {
         }
     }
 
-    const arrayOfElementsSpec = ["cite", "li", "i"];
-    for (let i = 0; i < arrayOfElementsSpec.length; i++) {
-        const lists = document.body.getElementsByTagName(arrayOfElementsSpec[i]);
-        if (lists.length) {
-            for (const list of lists) {
-                list.childNodes.forEach(item => {
-                    if (item != undefined) {
-                        if (item.tagName.toLowerCase != "style") {
-                            const result = wordGenerator(item.textContent, wordBank);
-                            item.textContent = result.censoredText;
-                            profanityCount += result.profanityCount;
-                        }
-                    }
-                });
-            }
-        }
-    }
+    // const arrayOfElementsSpec = ["cite", "li", "i"];
+    // for (let i = 0; i < arrayOfElementsSpec.length; i++) {
+    //     const lists = document.body.getElementsByTagName(arrayOfElementsSpec[i]);
+    //     if (lists.length) {
+    //         for (const list of lists) {
+    //             list.childNodes.forEach(item => {
+    //                 if (item.tagName.toLowerCase() !== "style") {
+    //                     const result = wordGenerator(item.textContent, wordBank);
+    //                     item.textContent = result.censoredText;
+    //                     profanityCount += result.profanityCount;
+    //                 }
+    //             });
+    //         }
+    //     }
+    // }
     
+    chrome.storage.local.set({ key: profanityCount }).then(() => {
+        console.log("Value is set");
+    });
+      
+    chrome.storage.local.get(["key"]).then((result) => {
+    console.log("Value currently is " + result.key);
+    });
 
     console.timeEnd("Exec Time");
 
