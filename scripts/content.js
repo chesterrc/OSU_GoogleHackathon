@@ -200,15 +200,21 @@ async function main() {
     }
 
     const lists = document.body.getElementsByTagName("li");
+
     if (lists.length) {
         for (const list of lists) {
             list.childNodes.forEach(item => {
-                const result = wordGenerator(item.textContent, wordBank);
-                item.textContent = result.censoredText;
-                profanityCount += result.profanityCount;
-            })
+                // Check if the node is an element node and not a <style> element
+                if (item.tagName.toLowerCase != "style") {
+                    const result = wordGenerator(item.textContent, wordBank);
+                    item.textContent = result.censoredText;
+                    profanityCount += result.profanityCount;
+                }
+            });
         }
     }
+
+
     
 
     console.timeEnd("Exec Time");
