@@ -128,7 +128,7 @@ function wordGenerator(string, wordBank) {
             words[i] = '*'.repeat(words[i].length) // censor word
         }
     }
-    return { censoredText: words.join(' '), profanityCount }
+    return { censoredText: words.join(''), profanityCount }
 }
 
 
