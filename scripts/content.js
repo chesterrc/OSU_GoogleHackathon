@@ -112,20 +112,54 @@ function wordGenerator(string, wordBank) {
      * Function splits the input string into words, checks each word for profanity,
      * and replaces profane words with asterisks.
      *
-     * @param {string} string   The string to be processed.
-     * @returns {string[]}      An array of words from the original string with profane words censored.
+     * @param {String} string   The string to be processed.
+     * @returns {String[]}      An array of words from the original string with profane words censored.
      *                          Each censored word is replaced with asterisks (*) of the same length as the word.
      */
 
     const words = string.split(' ').filter(w => w !== '');
+    let profanityCount = 0;
 
     for (let i=0; i < words.length; i++) {
         if (isProfanity(wordBank, words[i], 0, wordBank.length-1) === true) {
+            profanityCount = profanityCount + 1
             words[i] = '*'.repeat(words[i].length) // censor word
         }
     }
-    return words.join(' ')
+    return { censoredText: words.join(' '), profanityCount }
 }
+
+
+function storeProfanityCount(profanityCount) {
+    /**
+     * Stores the profanity count of a page and total profanity count
+     * in local storage.
+     *
+     * @param {Number} profanityCount   The total profanity count on a page
+     * @todo    Delete console.log for prod
+     */
+
+    chrome.storage.local.set({ profanityPageCount: profanityCount })
+    .then(() => {
+        console.log("Set Profanity count for page")
+    })
+
+    // Add profanityCount to the lifetime profanity count
+    chrome.storage.local.get(["totalProfanity"]).then((result) => {
+        total = profanityCount + result["totalProfanity"]
+        chrome.storage.local.set({ totalProfanity: total })
+        .then(() => {
+            console.log(`totalProfanity count ${total}`);
+        })
+      })
+      .catch((error) => {
+        chrome.storage.local.set({ totalProfanity: profanityCount })
+        .then(() => {
+            console.log("Set totalProfanity count");
+        })
+      });
+}
+
 
 async function main() {
     /**
@@ -136,17 +170,29 @@ async function main() {
      */
 
     const wordBank = await fetchWordBank();
-    // console.log(wordBank[wordBank.length-1])
     const all = document.getElementsByTagName("*");
+    let profanityCount = 0;
+
+    
+
     // console.log(all[200].textContent);
     // for (const char of all[200].textContent) {
     //     console.log(char)
     // }
 
+
+    // --- Testing ---
     // console.log(all[0].textContent)
     console.log(all[612].textContent)
-    all[612].textContent = wordGenerator(all[612].textContent, wordBank)
-    // console.log(all[612].textContent)
+    let result = wordGenerator(all[612].textContent, wordBank)
+    all[612].textContent = result.censoredText
+    profanityCount += result.profanityCount
+    console.log(all[612].textContent)
+    console.log(profanityCount)
+
+    // Store profanityCount of the page
+    storeProfanityCount(profanityCount)
+
     // @TODO
     // for (let i=0, max=all.length; i < max; i++) {
     //     all[i].textContent = wordGenerator(all[i].textContent, wordBank)
