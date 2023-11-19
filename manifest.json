@@ -10,12 +10,11 @@
     "content_scripts": [
         {
             "js": [
-                "scripts/background.js", 
                 "scripts/content.js"
             ],
             "matches": ["<all_urls>"],
             "css":["good-word.css"]
-        }   
+        }
     ],
     "web_accessible_resources": [
     {
@@ -25,6 +24,8 @@
     ],
     "permissions":[
         "management",
-        "storage"
+        "storage",
+        "scripting",
+        "activeTab"
     ]
 }
