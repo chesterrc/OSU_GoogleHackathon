@@ -202,10 +202,53 @@ async function main() {
                 }
             }
 
+            try {
+                const arrayOfElementsSpec = ["cite", "li", "i"];
+                for (let i = 0; i < arrayOfElementsSpec.length; i++) {
+                    const lists = document.body.getElementsByTagName(arrayOfElementsSpec[i]);
+                    if (lists.length) {
+                        for (const list of lists) {
+                            list.childNodes.forEach(item => {
+                                if (item.tagName.toLowerCase() !== "style") {
+                                    const result = wordGenerator(item.textContent, wordBank);
+                                    item.textContent = result.censoredText;
+                                    profanityCount += result.profanityCount;
+                                }
+                            });
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log(error);
+            }
+
             storeProfanityCount(profanityCount)
 
         }
     });
+
+    
+    // const arrayOfSpecElements = ["li", "cite", "i"];
+
+    // for (let i = 0; i < arrayOfSpecElements.length; i++) {
+    //     const nodes = document.body.getElementsByTagName(arrayOfSpecElements[i]);
+        
+    //     if (nodes && nodes.length) {
+    //         for (const node of nodes) {
+    //             if (node.childNodes && node.parentNode) {
+    //                 node.childNodes.forEach(item => {
+    //                     if (item && item.nodeType === 1 && item.tagName) {
+    //                         if (item.tagName.toLowerCase!== "style") {
+    //                             const result = wordGenerator(item.textContent, wordBank);
+    //                             item.textContent = result.censoredText;
+    //                             profanityCount += result.profanityCount;
+    //                         }
+    //                     }
+    //                 });
+    //             }
+    //         }
+    //     }
+    // }
 
 
 
