@@ -175,25 +175,43 @@ async function main() {
     let profanityCount = 0;
 
 
-    const paragraphs = document.body.getElementsByTagName("p")
+    const paragraphs = document.body.getElementsByTagName("p");
     for (const paragraph of paragraphs) {
-        const result = wordGenerator(paragraph.textContent, wordBank)
-        paragraph.textContent = result.censoredText
-        profanityCount += result.profanityCount
+        const result = wordGenerator(paragraph.textContent, wordBank);
+        paragraph.textContent = result.censoredText;
+        profanityCount += result.profanityCount;
     }
 
-    const arrayOfElements = ["h1", "h2", "h3", "h4", "h5", "h6", "li"] // if a is included, then we break all links
-    for (let i=0; i<arrayOfElements.length-1; i++) {
-        const nodes = document.body.getElementsByTagName(arrayOfElements[i])
-        for (const node of nodes) {
-            const result = wordGenerator(node.textContent, wordBank)
-            node.textContent = result.censoredText
-            profanityCount += result.profanityCount
+    const arrayOfElements = ["h1", "h2", "h3", "h4", "h5", "h6", "a"];
+
+    for (let i = 0; i < arrayOfElements.length; i++) {
+        const nodes = document.body.getElementsByTagName(arrayOfElements[i]);
+        if (nodes.length){
+            for (const node of nodes) {
+                const result = wordGenerator(node.textContent, wordBank);
+                node.textContent = result.censoredText;
+                profanityCount += result.profanityCount;
+            }
         }
     }
-    
 
-    console.log(profanityCount)
+    const lists = document.body.getElementsByTagName("li");
+    lists.forEach(element => {
+        const result = wordGenerator(element.textContent, wordBank);
+        node.textContent = result.censoredText;
+        profanityCount += result.profanityCount;
+    });
+
+    //     const nodes = document.body.getElementsByTagName(arrayOfElements[i])
+    //     console.log(nodes);
+    //     for (const node of nodes) {
+    //         const result = wordGenerator(node.innerHTML, wordBank)
+    //         node.textContent = result.censoredText
+    //         profanityCount += result.profanityCount
+    //     }
+    // }
+
+    // console.log(profanityCount)
 
     // console.log(all[200].textContent);
     // for (const char of all[200].textContent) {
