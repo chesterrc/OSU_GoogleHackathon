@@ -1,6 +1,6 @@
 # GoodWord Chrome Extension
 
-![GoodWord Logo](images/goodword_logo.png)
+![GoodWord Logo](images/GoodWordREADLogo.png)
 
 ## Overview
 

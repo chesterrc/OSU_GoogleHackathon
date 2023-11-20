@@ -5,7 +5,7 @@
     "manifest_version": 3,
     "action": {
         "default_popup": "nlp.html",
-        "default_icon": "images/hi.png"
+        "default_icon": "images/GoodWordIcon.png"
     },
     "content_scripts": [
         {
