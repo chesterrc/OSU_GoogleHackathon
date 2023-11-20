@@ -14,7 +14,6 @@ function poweron() {
     });
 }
 
-
 imgContainer = document.getElementById('onoff');
 img = document.createElement('img');
 
@@ -25,7 +24,6 @@ img.id = 'onoff_img';
 imgContainer.appendChild(img);
 img.style.height = '120px';
 img.style.width = '120px';
-
 
 
 document.getElementById('onoff').addEventListener('click', poweron);
@@ -44,9 +42,5 @@ chrome.storage.local.get(["totalProfanity"]).then((result) => {
     word_count.innerHTML = result['totalProfanity'];
 });
 
-//total profanity count
-chrome.storage.local.get(["totalProfanity"]).then((result) => {
-    console.log("Value currently is " + result['totalProfanity']);
-    const word_count = document.getElementById('total_count');
-    word_count.innerHTML = result['totalProfanity'];
-});
+//Rating algo
+
