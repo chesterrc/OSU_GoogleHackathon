@@ -1,6 +1,6 @@
 {
-    "name": "NLP Extension",
-    "description": "Erasing bad words from the webpage",
+    "name": "GoodWord",
+    "description": "Erasing bad words, one webpage at a time.",
     "version": "1.0",
     "manifest_version": 3,
     "action": {
@@ -12,8 +12,7 @@
             "js": [
                 "scripts/content.js"
             ],
-            "matches": ["<all_urls>"],
-            "css":["good-word.css"]
+            "matches": ["<all_urls>"]
         }
     ],
     "web_accessible_resources": [
