@@ -125,14 +125,37 @@ async function main() {
                 const nodes = document.body.getElementsByTagName(arrayOfElements[i]);
                 if (nodes.length){
                     for (const node of nodes) {
-                        node.childNodes.forEach(item => {
+                        if (node.childNodes) {
+                            if (node.tagName.toLowerCase() !== "style") {
+                                node.childNodes.forEach(item => {
+                                    const result = wordGenerator(item.textContent, wordBank);
+                                    node.textContent = result.censoredText;
+                                    profanityCount += result.profanityCount;
+                                });
+                        } else {
                             const result = wordGenerator(item.textContent, wordBank);
                             node.textContent = result.censoredText;
                             profanityCount += result.profanityCount;
-                        })
-                    }
+                        }
                 }
             }
+        }
+            // const links = document.body.getElementsByTagName("a");
+            // if (links.length){
+            //     for (const link of links) {
+            //         if (link.childNodes){
+            //             link.forEach(item => {
+            //                 const result = wordGenerator(item.textContent, wordBank);
+            //                 node.textContent = result.censoredText;
+            //                 profanityCount += result.profanityCount;
+            //             });
+            //         } else {
+            //             const result = wordGenerator(item.textContent, wordBank);
+            //             node.textContent = result.censoredText;
+            //             profanityCount += result.profanityCount;
+            //         }
+            //     }
+            // }
 
             try {
                 const arrayOfElementsSpec = ["cite", "li", "i"];
@@ -157,7 +180,8 @@ async function main() {
             storeProfanityCount(profanityCount)
 
         }
-    });
+    }
+});
 
     
     // const arrayOfSpecElements = ["li", "cite", "i"];
